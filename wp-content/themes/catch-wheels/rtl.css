@@ -1,0 +1,465 @@
+/*
+Theme Name: Catch Wheels
+
+Adding support for languages written in a Right To Left (RTL) direction is easy -
+it's just a matter of overwriting all the horizontal positioning attributes
+of your CSS stylesheet in a separate stylesheet file named rtl.css.
+
+https://codex.wordpress.org/Right-to-Left_Language_Support
+
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Normalize
+# Layouts
+# Media Queries
+	## >= 667px (iPhone 6, 6S, 7 and 8 : Landscape)
+	## >= 1024px (iPad 1, 2, 3, 4, Mini, Air, Pro 9.7" : Landscape)
+	## >= 1200px (Kindle Fire HD 8.9", Non-Retina Screens & Retina Screens : Portrait)
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+# Normalize
+--------------------------------------------------------------*/
+
+body {
+	direction: rtl;
+	overflow-x: hidden;
+	unicode-bidi: embed;
+}
+
+/*--------------------------------------------------------------
+# Layouts
+--------------------------------------------------------------*/
+
+.site-branding {
+	margin-right: 0;
+	padding-right: 0;
+	margin-left: auto;
+}
+
+#site-navigation {
+	margin-right: auto;
+}
+
+.main-navigation .dropdown-toggle {
+	left: 0;
+	right: inherit;
+}
+
+.navigation-classic .search-content-wrapper-top {
+	text-align: left;
+}
+
+.main-navigation ul ul a {
+	padding-left: 25px;
+	padding-right: 40px;
+}
+
+.main-navigation .menu-item-has-children > a,
+.main-navigation .page_item_has_children > a {
+	padding-left: 42px;
+	padding-right: 25px;
+}
+
+.main-navigation .menu-item-has-children .menu-item-has-children > a,
+.main-navigation .page_item_has_children .page_item_has_children > a {
+	padding-right: 40px;
+}
+
+.main-navigation ul ul ul a {
+	padding-left: 25px;
+	padding-right: 60px;
+}
+
+.menu-inside-wrapper .menu-social-container {
+	padding-left: 0;
+	padding-right: 16px;
+}
+
+#search-container {
+	clear: both;
+}
+
+#search-container input,
+.widget input[type="search"] {
+	padding: 8px 20px 8px 65px;
+}
+
+#search-container button,
+.widget .search-submit {
+	left: 0;
+	right: inherit;
+}
+
+.main-navigation ul ul li::before {
+	left: inherit;
+	right: 0;
+	transform: rotate(180deg);
+}
+
+.menu-content-wrapper .entry-price {
+	text-align: left;
+}
+
+th {
+	text-align: right;
+}
+
+ul,
+ol {
+    margin: 0 1.25em 1.75em 0;
+    padding: 0;
+}
+
+blockquote {
+	border: 0 solid #ff6b08;
+	border-right-width: 2px;
+	padding-left: 0;
+	padding-right: 28px;
+}
+
+.comment-metadata a {
+    margin-left: 21px;
+    margin-right: 0;
+}
+
+.tags-links a, .cat-links a {
+    margin-left: 7px;
+    margin-right: 0;
+}
+
+.entry-header .entry-meta > span {
+	margin-right: 0;
+	margin-left: 14px;
+}
+
+.events-section .hentry .posted-on {
+	margin-left: 0;
+	left: inherit;
+	right: 21px;
+}
+
+.entry-footer .cat-links:before,
+.entry-footer .tags-links:before,
+.edit-link:before {
+	float: right;
+	margin-right: 0;
+	margin-left: 7px;
+}
+
+.comment-author .avatar {
+    float: right;
+    margin-left: 28px;
+    margin-right: 0;
+}
+
+#cancel-comment-reply-link::before {
+	padding-left: 4px;
+	padding-right: 0;
+}
+
+.comment-content::before {
+    right: 16px;
+}
+
+.main-navigation .menu-toggle .fa {
+	margin-left: 3px;
+	margin-right: 0;
+}
+
+.widget_categories ul,
+.widget_archive ul,
+.ew-archive ul,
+.ew-category ul {
+	text-align: left;
+}
+
+.widget_categories ul li a,
+.widget_archive ul li a,
+.ew-archive ul li a,
+.ew-category ul li a {
+	float: right;
+}
+
+.main-navigation .search-content-wrapper-top .menu-toggle .fa {
+	margin-left: 0;
+}
+
+#scrollup {
+    left: 21px;
+    right: inherit;
+}
+
+.entry-breadcrumbs a {
+	margin-right: 0;
+	margin-left: 21px;
+}
+
+.entry-breadcrumbs a::after {
+	right: inherit;
+	left: -14px;
+	top: 2px;
+}
+
+.entry-breadcrumbs a::after,
+.author-link::after {
+	transform: rotate(90deg);
+}
+
+.portfolio-section .hentry .entry-container {
+	left: inherit;
+	right: 35px;
+}
+
+/*--------------------------------------------------------------
+# Media Queries
+--------------------------------------------------------------*/
+
+/*--------------------------------------------------------------
+## >= 667px
+--------------------------------------------------------------*/
+
+@media screen and (min-width: 41.6875em) {
+	.custom-logo-link {
+		padding-left: 10px;
+		padding-right: 0;
+	}
+
+	body:not('.navigation-classic') .nav-search-wrap {
+		padding-left: 11px;
+		padding-right: 0;
+	}
+
+	.site-branding {
+		text-align: right;
+		padding-right: 25px;
+	}
+
+	.hero-content-wrapper .entry-container:not(.full-width) {
+		padding-left: 0;
+		padding-right: 42px;
+		text-align: right;
+	}
+
+	.hero-content-wrapper .post-thumbnail {
+		padding: 0;
+	}
+
+	.author-description {
+		padding-left: 0;
+		padding-right: 35px;
+		text-align: right;
+	}
+
+	.excerpt-image-right .site-main .has-post-thumbnail .hentry-inner {
+		direction: ltr;
+		text-align: right;
+	}
+
+	.excerpt-image-left .site-main .has-post-thumbnail .hentry-inner .post-thumbnail,
+	.excerpt-image-left .site-main .has-post-thumbnail .hentry-inner .entry-container,
+	.excerpt-image-right .site-main .has-post-thumbnail .hentry-inner .post-thumbnail,
+	.excerpt-image-right .site-main .has-post-thumbnail .hentry-inner .entry-container {
+		direction: rtl;
+	}
+
+	.excerpt-image-right .site-main .has-post-thumbnail .hentry-inner .entry-container {
+		padding-right: 0;
+		padding-left: 42px;
+	}
+
+	.excerpt-image-right .site-main .has-post-thumbnail .hentry-inner {
+		direction: ltr;
+	}
+
+	.excerpt-image-left .site-main .hentry-inner {
+	    direction: rtl;
+	}
+
+	.excerpt-image-left .site-main .has-post-thumbnail .hentry-inner .entry-container {
+		padding-left: 0;
+		padding-right: 42px;
+	}
+
+	.comment-navigation .nav-previous,
+	.posts-navigation .nav-previous,
+	.post-navigation .nav-previous {
+		float: right;
+	}
+
+	.post-navigation .nav-previous {
+		text-align: right;
+	}
+
+	.post-navigation .nav-next {
+		padding-left: 0;
+		padding-right: 21px;
+	}
+
+	.post-navigation .nav-previous {
+		padding-left: 21px;
+		padding-right: 0;
+	}
+	.post-navigation .nav-next .nav-subtitle::after {
+		margin-left: 0;
+	    margin-right: 7px;
+	}
+
+	.post-navigation .nav-previous .nav-subtitle::before {
+	    margin-left: 7px;
+	    margin-right: 0;
+	}
+}
+
+/*--------------------------------------------------------------
+## >= 1024px
+--------------------------------------------------------------*/
+
+@media screen and (min-width: 64em) {
+
+	.navigation-classic .main-navigation ul ul::before {
+		left: 14px;
+	    right: inherit;
+	}
+
+	.navigation-classic .main-navigation ul ul::after {
+	    left: 16px;
+	    right: inherit;
+	}
+
+	.navigation-classic #search-container::after {
+		left: 6px;
+		right: inherit;
+	}
+
+	.navigation-classic #search-container::before {
+	    left: 4px;
+	    right: inherit;
+	}
+
+	body:not(.navigation-classic) .menu-inside-wrapper,
+	.site-header-main .search-content-wrapper-top #search-container {
+		left: 0;
+		right: inherit;
+	}
+
+	body:not(.navigation-classic) .site-branding {
+		margin-left: auto;
+		margin-right: 0;
+	}
+
+	.navigation-classic .main-navigation #primary-menu .menu-item-has-children > a:after,
+	.navigation-classic .main-navigation #primary-menu .page_item_has_children > a:after {
+		right: inherit;
+		left: 21px;
+	}
+
+	.navigation-classic ul.sub-menu,
+	.navigation-classic .main-navigation .children {
+		text-align: right;
+	}
+
+	.navigation-classic .main-navigation ul ul li:hover > ul,
+	.navigation-classic .main-navigation ul ul li.focus > ul {
+	    left: 100%;
+	    right: inherit;
+	}
+
+	.navigation-classic .main-navigation ul ul .menu-item-has-children > a::after,
+	.navigation-classic .main-navigation ul ul .page_item_has_children > a::after {
+	    transform: rotate(270deg);
+	}
+
+	.navigation-classic .main-navigation ul li:hover > ul,
+	.navigation-classic .main-navigation ul li.focus > ul {
+	    left: 0;
+	    right: auto;
+	}
+
+	.navigation-classic .main-navigation .menu-item-has-children > a,
+	.navigation-classic .main-navigation .page_item_has_children > a {
+	    padding-left: 42px;
+	    padding-right: 25px;
+	}
+
+	.navigation-classic .site-header-main .search-content-wrapper-top #search-container {
+		left: 0;
+		right: inherit;
+	}
+
+	.author-description {
+		padding-right: 49px;
+	}
+
+	.navigation-classic .menu-inside-wrapper .menu-social-container {
+		padding-right: 0;
+	}
+
+	blockquote {
+		padding-right: 35px;
+	}
+
+	.content-left .content-area {
+	    float: right;
+	    margin-left: -100%;
+	    margin-right: 0;
+	    width: 71%;
+	}
+
+	.content-left .sidebar {
+	    float: right;
+	    margin-left: 0;
+	    margin-right: 71%;
+	}
+
+	.content-left .sidebar {
+		padding-right: 5px;
+		padding-left: 45px;
+	}
+
+	.content-right .sidebar {
+	    float: right;
+	    margin-right: 0;
+	    margin-left: 71%;
+	}
+
+	.content-right .content-area {
+	    float: left;
+	    margin-right: -100%;
+	    margin-left: 0;
+	}
+}
+
+/*--------------------------------------------------------------
+## >= 1200px
+--------------------------------------------------------------*/
+
+@media screen and (min-width: 75em) {
+	.site-description {
+		text-align: right;
+	}
+
+	.site-branding,
+	.navigation-classic .site-branding {
+		text-align: right;
+	}
+
+	.navigation-classic .custom-logo-link {
+		padding-right: 0;
+		padding-left: 10px;
+	}
+
+	.hero-content-wrapper .entry-container:not(.full-width) {
+		padding-right: 49px;
+	}
+
+	.content-right .sidebar {
+	    padding-right: 45px;
+	    padding-left: 5px;
+	}
+
+}
+
