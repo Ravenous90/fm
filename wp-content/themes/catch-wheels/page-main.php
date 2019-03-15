@@ -21,18 +21,31 @@ get_header(); ?>
             <div class="start-content" id="players">
                 <p>Choose players:</p>
                 <div class="players-view"></div>
-					<input class="fm-input" name="player-name" type="text">
-					<button class="btn btn-light add-player">Add</button>
+                <div class="action-buttons">
+                    <button class="custom-button btn btn-success new-player-button">+</button>
+                    <button class="custom-button btn btn-danger del-player-button">-</button>
+                </div>
+                <div class="add-player-wrapper">
+                    <input class="fm-input" name="player-name" type="text">
+                    <button class="btn btn-light add-player">add</button>
+                </div>
                 <hr>
                 <div class="chosen-players-view">
                     <ol>
                     </ol>
 				</div>
-				
             </div>
 
             <div class="start-content" id="teams">
-                <span>step3</span>
+                <p>Choose teams for main basket:</p>
+                <button class="back-to-leagues">back</button>
+                <div class="leagues-view"></div>
+                <div class="teams-view"></div>
+                <hr>
+                <div class="chosen-teams-view">
+                    <ol>
+                    </ol>
+                </div>
             </div>
 
 			<div class="next-button-block">
