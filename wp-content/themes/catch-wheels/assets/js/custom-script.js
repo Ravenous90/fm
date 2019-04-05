@@ -5,10 +5,29 @@ jQuery(document).ready(function ($) {
     const ajax_path = '/wp-admin/admin-ajax.php';
 
     // steps for view popup 'start trournament'
-    const steps = {'step1': 'name', 'step2': 'players', 'step3': 'teams'};
+    const STEPS = {
+        'step1': 'name',
+        'step2': 'players',
+        'step3': 'teams',
+        'step4': 'teams-to-players'
+    };
+    const STEPS_ARR = [STEPS.step1, STEPS.step2, STEPS.step3, STEPS.step4];
+    const START_CLASS = '.start-content';
+    const START_IDS = ['#'+ STEPS.step1, '#' + STEPS.step2, '#' + STEPS.step3, '#' + STEPS.step4];
 
     // array with with input data for start tournament
-    let start_tournament_data = {};
+    var start_tournament_data = {};
+
+    function activateNextStep(step_name) {
+        let step_number = $.inArray(step_name, STEPS_ARR);
+
+        $(START_CLASS + START_IDS[step_number]).removeClass('active');
+         if (START_IDS[step_number + 1] != -1) {
+            $(START_CLASS + START_IDS[step_number + 1]).addClass('active');
+        } else {
+            alert ('Error with getting step');
+        }
+    }
 
     function convert_action_name(name) {
         return name.replace(/-/g, '_');
@@ -31,13 +50,7 @@ jQuery(document).ready(function ($) {
             $(modal).addClass("open");
         }, 350);
 
-        $('.start-content#name').addClass('active');
-    });
-
-    // visible input for add players
-    $('.new-player-button').on('click', function () {
-        $('.add-player-wrapper').css({'opacity': 1, 'pointer-events': 'visible'});
-
+        $(START_CLASS + START_IDS[0]).addClass('active');
     });
 
     // main logic for start tournament
@@ -45,17 +58,18 @@ jQuery(document).ready(function ($) {
         e.preventDefault();
         var step = $('.modal-start.open .content').find('.active').attr('id');
         switch (step) {
-            case steps.step1:
+
+//  <------________STEP 1________------>
+
+            case STEPS.step1:
+                let tournament_name = $("input[name='tournament-name']").val();
+
                 $('.players-view').empty();
-                var tournament_name = $("input[name='tournament-name']").val();
                 if (tournament_name != '') {
+                    activateNextStep(step);
 
-                    // record var in first step - tornament name
-                    start_tournament_data[steps.step1] = tournament_name;
-
-                    $('.start-content#name').removeClass('active');
-                    $('.start-content#players').addClass('active');
-                    $('.next-button').attr('id', 'go-to-teams');
+                    // record var in first step - tournament name
+                    start_tournament_data[STEPS.step1] = tournament_name;
 
                     // getting list of players from DB
                     $.ajax({
@@ -66,7 +80,6 @@ jQuery(document).ready(function ($) {
                         },
                         dataType: 'json',
                         success: function (data) {
-                            // console.info(data);
                             $.each(data, function (index, value) {
                                 $('.players-view').append('<div class="one-player" data-name="' + value.name + '">'
                                     + value.name + '</div>');
@@ -77,10 +90,17 @@ jQuery(document).ready(function ($) {
                         }
                     });
 
+                    // visible input for add players
+                    $('.new-player-button').on('click', function () {
+                        $('.add-player-wrapper').toggleClass('invisible');
+                    });
+
                     // add new player to DB and to the viewing list
                     $('.add-player').on('click', function () {
                         var player_name = $("input[name='player-name']").val();
-                        if (player_name != '') {
+                        if (player_name == '') {
+                            alert('Enter player name');
+                        } else {
                             $.ajax({
                                 url: ajax_path + '?action=insert_new_row',
                                 type: 'post',
@@ -108,8 +128,6 @@ jQuery(document).ready(function ($) {
                                 }
                             });
                             $('.fm-input').val('');
-                        } else {
-                            alert('Enter player name');
                         }
                     });
 
@@ -158,6 +176,7 @@ jQuery(document).ready(function ($) {
                         });
                     }
 
+                    // choosing players for game
                     $('.players-view').on('click', '.one-player', function () {
                         var name = $(this).data('name');
                         $(this).remove();
@@ -174,115 +193,331 @@ jQuery(document).ready(function ($) {
                     $('.chosen-players-view ol').on('click', '.chosen-player', function () {
                         var name = $(this).data('name');
                         $(this).remove();
-                        $('.players-view')
-                            .append('<div class="one-player" data-name="' + name + '">' + name + '</div>');
+                            $('.players-view')
+                                .append('<div class="one-player" data-name="' + name + '">' + name + '</div>');
                     });
                     $('.fm-input').val('');
                 } else {
                     alert('Enter tournament name');
                 }
                 break;
-            case steps.step2:
-                $('.start-content#players').removeClass('active');
-                $('.start-content#teams').addClass('active');
-                $('.next-button').text('Start');
 
-                // // record var in second step - players
-                let players = {};
+//  <------________STEP 2________------>
+
+            case STEPS.step2:
+                let players = [];
 
                 $('.chosen-player').each(function (e) {
                     players[e] = $(this).data('name');
                 });
 
-                start_tournament_data[steps.step2] = players;
-                console.info(start_tournament_data);
+                if (players.length == 0) {
+                        alert('Choose players');
+                } else {
 
-                // getting list of leagues
-                $.ajax({
-                    url: ajax_path + '?action=get_all_info',
-                    type: 'post',
-                    data: {
-                        table_name: 'fm_leagues',
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        $.each(data, function (index, value) {
-                            $('.leagues-view')
-                                .append('<div class="one-league" data-name="'+value.name+'" data-id="'+value.id+'">'
-                                + value.name + '</div>');
-                        });
-                    },
-                    error: function (error) {
-                        alert('Error with getting info from DB - ' + error);
-                    }
-                });
+                    activateNextStep(step);
 
-                //
+                    // record var in second step - players
+                    start_tournament_data[STEPS.step2] = players;
 
-                $('.leagues-view').on('click', '.one-league', function () {
-                    var league_id = $(this).data('id');
-                    $('.leagues-view').find('.one-league').addClass('deactivated');
-                    $('.back-to-leagues').css('display', 'inline-block');
-
+                    // getting list of leagues
                     $.ajax({
-                        url: ajax_path + '?action=get_info_with_flags',
+                        url: ajax_path + '?action=get_all_info',
                         type: 'post',
                         data: {
                             table_name: 'fm_leagues',
-
-                            // if didn't set field - all fields will be getting by default
-                            // need to set string with coma
-                            fields : 'id',
-
-                            // flags and values need to be arrays for parsing in back-end
-                            flags: ['id'],
-                            values: [league_id],
                         },
                         dataType: 'json',
                         success: function (data) {
-                            console.info(data);
-                            $.ajax({
-                                url: ajax_path + '?action=get_info_with_flags',
-                                type: 'post',
-                                data: {
-                                    table_name: 'fm_teams',
-                                    flags: ['leagues_id'],
-                                    values: [data[0].id],
-                                },
-                                dataType: 'json',
-                                success: function (data) {
-                                    console.info(data);
-                                    $.each(data, function (index, value) {
-                                        $('.teams-view')
-                                            .append('<div class="one-team" data-name="'+value.name+'" data-id="'+value.id+'">' +
-                                                '<img src="'+value.img_url+'" alt="'+value.name+'"></div>');
-                                    });
-                                },
-                                error: function (error) {
-                                    alert('Error with getting info from DB - ' + error);
-                                }
+                            $.each(data, function (index, value) {
+                                $('.leagues-view')
+                                    .append('<div class="one-league" data-name="' + value.name + '" data-id="' + value.id + '">'
+                                        + value.name + '</div>');
                             });
-
                         },
                         error: function (error) {
                             alert('Error with getting info from DB - ' + error);
                         }
                     });
 
+                    // getting list of teams
+                    setTimeout(function () {
+                        $.ajax({
+                            url: ajax_path + '?action=get_all_info',
+                            type: 'post',
+                            data: {
+                                table_name: 'fm_teams',
+                            },
+                            dataType: 'json',
+                            success: function (data) {
+                                console.info(data);
+                                $.each(data, function (index, value) {
+                                    $('.teams-view')
+                                        .append('<div class="one-team deactivated" data-name="' + value.name + '" data-id="' + value.id + '" ' +
+                                            'data-league="' + value.leagues_id + '">' +
+                                            '<img src="' + value.img_url + '" alt="' + value.name + '"></div>');
+                                });
+                            },
+                            error: function (error) {
+                                alert('Error with getting info from DB - ' + error);
+                            }
+                        });
+                    }, 500);
+
+                    // getting teams by league
+                    $('.leagues-view').on('click', '.one-league', function () {
+                        let league_id = $(this).data('id');
+
+                        $('.leagues-view').toggleClass('deactivated');
+                        $('.back-to-leagues').toggleClass('deactivated');
+                        $('.teams-view').toggleClass('deactivated');
+
+                        $('.one-team*[data-league="' + league_id + '"]').each(function () {
+                            $(this).toggleClass('deactivated');
+                        });
+                    });
+
+                    // back to leagues button
+                    $('.back-to-leagues').on('click', function () {
+                        $('.back-to-leagues').toggleClass('deactivated');
+                        $('.teams-view').toggleClass('deactivated');
+                        $('.leagues-view').toggleClass('deactivated');
+                        $('.one-team').not('.deactivated').addClass('deactivated');
+                    });
+
+                    // choose teams for n-basket
+                    $('.teams-view').on('click', '.one-team', function () {
+                        let basket_id = $('.baskets-number').val();
+                        let team_name = $(this).data('name');
+                        let team_id = $(this).data('id');
+                        let team_league = $(this).data('league');
+                        let img_src = $(this).children().attr('src');
+
+                        $(this).remove();
+
+                        if (!$('ol').is('#' + basket_id)) {
+                            $('.chosen-teams-view').append('<ol id="' + basket_id + '"></ol>');
+                        }
+
+                        $('.chosen-teams-view ol#' + basket_id)
+                            .append('<li class="chosen-team" data-name="' + team_name + '" data-id="' + team_id + '" ' +
+                                'data-league="' + team_league + '" data-img="' + img_src + '">' + team_name + '</li>');
+                    });
+
+                    // move chosen team back to team's list
+                    $('.chosen-teams-view ol').on('click', '.chosen-team', function () {
+                        let team_name = $(this).data('name');
+                        let team_id = $(this).data('id');
+                        let team_league = $(this).data('league');
+                        let img_src = $(this).data('img');
+
+                        $(this).remove();
+
+                        // switch class name depending on where click removing
+                        let needed_class = $('.leagues-view').hasClass('deactivated') ? 'one-team' : 'one-team deactivated';
+                        $('.teams-view')
+                            .append('<div class="' + needed_class + '" data-name="' + team_name + '" data-id="' + team_id + '" ' +
+                                'data-league="' + team_league + '">' +
+                                '<img src="' + img_src + '" alt="' + team_name + '"></div>');
+                    });
+                }
+                break;
+
+//  <------________STEP 3________------>
+
+            case STEPS.step3:
+                activateNextStep(step);
+
+                let baskets_arr = [];
+
+                // transform object with players to simple array for better using
+                let player_arr = $.map(start_tournament_data[STEPS.step2], function(e) {return e});
+                let current_player_key = 0;
+                let current_player = player_arr[current_player_key];
+
+                $('.next-button').text('Start');
+
+                // add players to block, where will be chosen teams
+                $.each(player_arr, function (index, value) {
+                    $('.teams-to-players-view')
+                        .append('<div class="teams-to-one-player" data-player="' + value + '">' +
+                        '<span class="teams-to-current-player">' + value + '</span></div>');
                 });
 
-                // back to leagues button
-                $('.back-to-leagues').on('click', function () {
-                    $('.teams-view').empty()
-                    $('.leagues-view').find('.one-league').removeClass('deactivated');
+                // get baskets array
+                $('.chosen-teams-view ol').each(function () {
+                    baskets_arr.push($(this).attr('id'));
+                });
+                let current_basket = baskets_arr[0];
+
+                // add teams to their baskets for choosing
+                $('.chosen-team').each(function () {
+                    let team_name = $(this).data('name');
+                    let team_id = $(this).data('id');
+                    let team_league = $(this).data('league');
+                    let img_src = $(this).data('img');
+                    let basket_id = $(this).parent().attr('id');
+
+                    let cur_cl = (basket_id == current_basket) ? '' : ' deactivated';
+
+                    $('.teams-in-basket-view')
+                        .append('<div class="one-team-in-basket'+cur_cl+'" data-id="'+team_id+'" ' +
+                        'data-name="'+team_name+'" data-league="'+team_league+'" data-basket="'+basket_id+'">' +
+                        '<img src="'+img_src+'" alt="'+team_name+'"></div>');
+                });
+
+                function updateCurrentBasketTeams(current_basket) {
+                    $('.one-team-in-basket').each(function () {
+                        if ($(this).data('basket') == current_basket) {
+                            if($(this).hasClass('deactivated')) {
+                                $(this).removeClass('deactivated');
+                            }
+                        } else {
+                            if(!$(this).hasClass('deactivated')) {
+                                $(this).addClass('deactivated');
+                            }
+                        }
+                    });
+                }
+
+                function changeTextOfCurrentBasket(current_basket) {
+
+                    let text = ' ';
+                    switch (Number(current_basket)) {
+                        case 1:
+                            text = 'first';
+                            break;
+                        case 2:
+                            text = 'second';
+                            break;
+                        case 3:
+                            text = 'third';
+                            break;
+                        case 4:
+                            text = 'fourth';
+                            break;
+                        case 5:
+                            text = 'fifth';
+                            break;
+                    }
+                    $('.current-basket-id').text(text);
+                }
+
+                changeTextOfCurrentBasket(current_basket);
+
+                // get list of teams from next basket
+                $('.next-basket').on('click', function () {
+                    let basket_pos = $.inArray(current_basket, baskets_arr);
+
+                    if ((basket_pos) != baskets_arr.length - 1) {
+                        current_basket = baskets_arr[basket_pos + 1];
+                        updateCurrentBasketTeams(current_basket);
+                        changeTextOfCurrentBasket(current_basket);
+                    }
+                });
+
+                // get list of teams from previous basket
+                $('.previous-basket').on('click', function () {
+                    let basket_pos = $.inArray(current_basket, baskets_arr);
+
+                    if ((basket_pos) != 0) {
+                        current_basket = baskets_arr[basket_pos - 1];
+                        updateCurrentBasketTeams(current_basket);
+                        changeTextOfCurrentBasket(current_basket);
+                    }
+                });
+
+                // add team to current player from current basket
+                $('.teams-in-basket-view').on('click', '.one-team-in-basket', function () {
+                    let team_name = $(this).data('name');
+                    let team_id = $(this).data('id');
+                    let team_league = $(this).data('league');
+                    let img_src = $(this).children().attr('src');
+                    let basket_id = $(this).data('basket');
+
+                    $(this).remove();
+
+                    $('.chosen-team-to-player').each(function () {
+                        if ($(this).hasClass('can-deleted')) {
+                            $(this).removeClass('can-deleted');
+                        }
+                    });
+
+                    $('.teams-to-one-player[data-player="'+current_player+'"]')
+                        .append('<p class="chosen-team-to-player can-deleted" data-name="'+team_name+'" data-id="'+team_id+'" ' +
+                        'data-league="'+team_league+'" data-img="'+img_src+'" data-player="'+current_player+'" ' +
+                        'data-basket="'+basket_id+'">' + team_name + '</p>');
+
+                    // choose next player
+                    current_player_key++;
+                    current_player = player_arr[current_player_key];
+
+                    // if there isn't name in player array (previous was last name in array) assign first name as current
+                    if ($.inArray(current_player, player_arr) == -1) {
+                        current_player_key = 0;
+                        current_player = player_arr[current_player_key];
+                    }
+                });
+
+                // move chosen team-to-player back to teams-in-basket list
+                $('.teams-to-one-player').on('click', '.chosen-team-to-player', function () {
+                    if (!$(this).hasClass('can-deleted')) {
+                        alert('You can remove only last team of the list');
+                    } else {
+                        let team_name = $(this).data('name');
+                        let team_id = $(this).data('id');
+                        let team_league = $(this).data('league');
+                        let img_src = $(this).data('img');
+                        let basket_id = $(this).data('basket');
+
+                        $(this).remove();
+
+                        let cur_cl = basket_id == current_basket ? '' : ' deactivated';
+
+                        $('.teams-in-basket-view')
+                            .append('<div class="one-team-in-basket' + cur_cl + '" data-id="' + team_id + '" ' +
+                                'data-name="' + team_name + '" data-league="' + team_league + '" ' +
+                                'data-basket="' + basket_id + '">' +
+                                '<img src="' + img_src + '" alt="' + team_name + '"></div>');
+
+                        current_player = $(this).data('player');
+                        current_player_key = $.inArray(current_player, player_arr);
+
+                        let previous_player = current_player_key != 0 ?
+                            player_arr[current_player_key - 1] :
+                            player_arr[player_arr.length - 1];
+
+                        let prev_team = $('.teams-to-one-player').find('[data-player=' + previous_player + ']').last();
+
+                        if (prev_team.data('player') == previous_player) {
+                            $(prev_team).addClass('can-deleted');
+                        }
+                    }
                 });
 
                 break;
-            case steps.step3:
-                 setTimeout( function(){
-                     $('#start').parents(".overlay").removeClass("open");
-                     $('.start-content#teams').removeClass('active');
-                 }, 500);
+
+//  <------________STEP 3________------>
+
+            case STEPS.step4:
+                 // setTimeout( function(){
+                 //     $('#start').parents(".overlay").removeClass("open");
+                 //     $(START_CLASS + START_IDS[$.inArray(step, STEPS_ARR)]).removeClass('active');
+                 // }, 500);
+                let player_to_teams = [];
+                $('.teams-to-one-player').each(function () {
+                    $(this).children().each(function () {
+                        if ($(this).hasClass('chosen-team-to-player')) {
+                            let player = $(this).data('player');
+                            let team = $(this).data('name');
+                            player_to_teams.push({
+                                [player]: team
+                            });
+                        }
+                    });
+                });
+                start_tournament_data[STEPS.step3] = player_to_teams;
+console.info(start_tournament_data);
                 break;
             default:
                 alert('there is no step');
@@ -290,8 +525,7 @@ jQuery(document).ready(function ($) {
         }
     });
 
-    // закрытие попапа начала турнира
-
+    // close popup start tournament
     $(document).on('click', function(e){
         var target = $(e.target);
             if ($(target).hasClass("overlay")) {
@@ -306,28 +540,5 @@ jQuery(document).ready(function ($) {
     });
 
 });
-
-
-// $('#set-tournament-name').on('click' , function (e) {
-//     e.preventDefault();
-//     var action = convert_action_name($(this).attr('id'));
-//     var tournament_name = $("input[name='tournament-name'").val();
-//     if (tournament_name != '') {
-//         $.ajax({
-//             url: ajax_path + '?action=' + action,
-//             type: 'post',
-//             data: {
-//                 tournament_name: tournament_name,
-//             },
-//             dataType: 'json',
-//             success: function (data) {
-//                 console.info(data);
-//             }
-//         });
-//     } else {
-//         alert('Enter tournament name');
-//     }
-// });
-
 
 // end jquery scripts_data

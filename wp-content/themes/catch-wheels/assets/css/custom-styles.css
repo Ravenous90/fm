@@ -141,12 +141,27 @@ footer{
 
 .next-button {
     margin-bottom: 20px;
+    background: #2b3339;
+}
+
+.next-button:focus {
+    outline: 5px solid;
+    border-radius: 5px;
+    box-shadow: none;
 }
 
 .add-player-wrapper {
+    transition: 1s ease-in-out;
+}
+
+.new-player-button:focus, .del-player-button:focus {
+    box-shadow: none;
+}
+
+.invisible {
     opacity: 0;
     pointer-events: none;
-    transition: 2s ease-in-out;
+    transition: 1s ease-in-out;
 }
 
 .fm-input {
@@ -155,13 +170,13 @@ footer{
     padding: 5px;
     border: none !important;
     color: #000000;
+    font-weight: 600;
 }
 
 .fm-input:focus {
     border: none !important;
-    background: #DBF530;
     font-weight: 600;
-    outline: 2px solid #DBF530;
+    outline: 2px solid #999999
 }
 
 input[name=player-name] {
@@ -181,21 +196,22 @@ input[name=player-name] {
 
 .one-player {
 	margin: 5px;
-    padding: 0 5px;
-    /*background: linear-gradient(to right, rgba(211,211,211,1) 0%,rgba(245,245,245,1) 50%,rgba(211,211,211,1) 100%);*/
-    background: #F0FFFF;
+    padding: 0 10px;
+    background: #2b3339;
     box-shadow: 0 1px 2px rgba(0,0,0,0.19), 0 5px 5px rgba(0,0,0,0.23);
-    border-radius: 3px;
     cursor: pointer;
-    transition: background 1s ease-in-out;
+    transition: background 500ms ease-in-out;
+    border-radius: 5px;
+    letter-spacing: 0.2125rem;
+    color: #FFFFFF;
+    font-weight: 600;
 }
 
 .one-player:hover {
-    /*background: linear-gradient(to right, rgba(245,245,245,1) 0%,rgba(211,211,211,1) 50%,rgba(245,245,245,1) 100%);*/
-    background: #28a745;
+    background: #9999;
     font-weight: 600;
     color: #000000;
-	transition: background 1s ease;
+	transition: background 500ms ease;
 }
 
 .delete-player:hover {
@@ -259,13 +275,14 @@ input[name=player-name] {
     padding: 0 15px;
 }
 .button-tournament:hover {
-
+    background: #999999;
+    color: #000000;
 }
 
 /*end button start tournament styles*/
 
 .back-to-leagues {
-    display: none;
+    display: inline-block;
     cursor: pointer;
     margin-bottom: 10px;
 }
@@ -288,13 +305,69 @@ input[name=player-name] {
     display: block;
 }
 
-.one-league.deactivated, .one-team.deactivated {
+.deactivated {
     display: none;
 }
 
-.one-team {
+.activated {
+    display: inline-block;
+}
+
+.highlighted-block {
+    border: 1px solid #999999;
+    padding: 2px 5px;
+    background: #999999;
+    border-radius: 5px;
+}
+
+.one-team, .one-team-in-basket {
     margin: 5px;
     cursor: pointer;
+}
+
+.baskets-number {
+    width: 40px;
+    border: none;
+    padding: 0 5px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.chosen-team {
+    text-align: left;
+    cursor: pointer;
+}
+
+.teams-to-current-player, .current-basket-id {
+    font-weight: 600;
+    color: #000000;
+    text-decoration: underline;
+}
+
+.teams-to-players-view, .teams-in-basket-view {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+}
+
+.chosen-team-to-player {
+    margin: 5px;
+    cursor: pointer;
+}
+
+.manage-baskets, .clean-teams-to-players {
+    outline: 1px solid #999999;
+    background: #999999;
+    padding: 1px 5px;
+    color: #FFFFFF;
+}
+
+.previous-basket, .next-basket {
+    cursor: pointer;
+    font-weight: 600;
 }
 
 /*start modal window style*/
@@ -333,6 +406,7 @@ input[name=player-name] {
     transition: 0.35s ease-in-out;
     max-height: 100vh;
     overflow-y: auto;
+    margin-bottom: 38px;
 }
 
 .overlay .modal-start.open {
