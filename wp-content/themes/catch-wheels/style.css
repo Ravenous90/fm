@@ -2085,10 +2085,6 @@ body:not(.home).blog .content-area .section-heading-wrapper {
 	clear: both;
 }
 
-.site-info .wrapper {
-	padding: 18px 25px;
-}
-
 #footer-left-content,
 #footer-right-content {
 	padding: 10px 0;

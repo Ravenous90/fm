@@ -21,7 +21,9 @@ get_header(); ?>
             <div class="start-content" id="players">
                 <p>Choose players:</p>
                 <div class="players-view"></div>
-                <i class="fa fa-random fa-2x random-player" aria-hidden="true"></i>
+                <div class="random-player-block">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/shuffle.png" class="random-player"/>
+                </div>
                 <div class="action-buttons">
                     <button class="custom-button btn btn-success new-player-button">+</button>
                     <button class="custom-button btn btn-danger del-player-button">-</button>
@@ -54,8 +56,8 @@ get_header(); ?>
                 <span class="current-basket-id"></span>
                 <span>basket:</span>
                 <div class="teams-in-basket-view"></div>
-                <div>
-                    <i class="fa fa-random fa-2x random-team" aria-hidden="true"></i>
+                <div class="random-team-block">
+                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/shuffle.png" class="random-team"/>
                 </div>
                 <div>
                     <span class="manage-baskets previous-basket"><</span><span class="manage-baskets btn-baskets-text">baskets</span><span class="manage-baskets next-basket">></span>

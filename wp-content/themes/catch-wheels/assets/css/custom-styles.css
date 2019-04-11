@@ -227,6 +227,11 @@ input[name=player-name] {
     color: #FFFFFF;
 }
 
+.random-player-block, .random-team-block {
+    display: inline-block;
+    cursor: pointer;
+}
+
 .chosen-players-view {
     display: -webkit-flex; /* Safari */
     display: flex;
@@ -372,6 +377,10 @@ input[name=player-name] {
 
 /*start modal window style*/
 
+.site-info .wrapper {
+    padding: 18px 25px;
+}
+
 .overlay {
     width: 100%;
     min-height: 100vh;
@@ -432,12 +441,20 @@ input[name=player-name] {
 /*end modal window style*/
 
 /*start media requests*/
-@media (max-width: 600px) {
+@media (max-width: 640px) {
     .site-branding, .footer-wrapper {
         display: none;
     }
 
     #primary-menu {
         background-color: #FFFFFF;
+    }
+
+    .site-info .wrapper {
+        padding: 0;
+    }
+
+    footer {
+        height: 40px;
     }
 }

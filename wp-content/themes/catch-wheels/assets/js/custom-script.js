@@ -133,7 +133,7 @@ jQuery(document).ready(function ($) {
 
                     // removing player
                     $('.del-player-button').on('click', function () {
-                        var player = $('.one-player');
+                        let player = $('.one-player');
                         if (!$(this).hasClass('activated')) {
                             player.each(function () {
                                 $(this).addClass('delete-player');
@@ -176,26 +176,46 @@ jQuery(document).ready(function ($) {
                         });
                     }
 
-                    // choosing players for game
-                    $('.players-view').on('click', '.one-player', function () {
-                        var name = $(this).data('name');
-                        $(this).remove();
+                    function choosePlayer(player_object) {
+                        let name = player_object.data('name');
+                        player_object.remove();
 
-                        if ($(this).hasClass('delete-player')) {
+                        if (player_object.hasClass('delete-player')) {
                             deletePlayer(name);
                         } else {
                             $('.chosen-players-view ol')
                                 .append('<li class="chosen-player" data-name="' + name + '">' + name + '</li>');
                         }
+                    }
+
+                    // choosing players for game
+                    $('.players-view').on('click', '.one-player', function () {
+                        choosePlayer($(this));
+                    });
+
+
+                    // choose random player
+                    $('.random-player-block').on('click', function () {
+                        let players = $('.one-player');
+                        if (players.hasClass('delete-player')) {
+                            alert('Delete player or turn off deletion');
+                        } else if (players.length == 0) {
+                            alert('There are no players');
+                        } else {
+                            let rnd = Math.floor(Math.random() * players.length + 1);
+                            let rnd_pl = $('.one-player:nth-child(' + rnd + ')');
+                            choosePlayer(rnd_pl);
+                        }
                     });
 
                     // move chosen player back to player's list
-                    $('.chosen-players-view ol').on('click', '.chosen-player', function () {
+                    $('.chosen-players-view').on('click', '.chosen-player', function () {
                         var name = $(this).data('name');
                         $(this).remove();
-                            $('.players-view')
-                                .append('<div class="one-player" data-name="' + name + '">' + name + '</div>');
+                        $('.players-view')
+                            .append('<div class="one-player" data-name="' + name + '">' + name + '</div>');
                     });
+
                     $('.fm-input').val('');
                 } else {
                     alert('Enter tournament name');
@@ -305,7 +325,7 @@ jQuery(document).ready(function ($) {
                     });
 
                     // move chosen team back to team's list
-                    $('.chosen-teams-view ol').on('click', '.chosen-team', function () {
+                    $('.chosen-teams-view').on('click', '.chosen-team', function () {
                         let team_name = $(this).data('name');
                         let team_id = $(this).data('id');
                         let team_league = $(this).data('league');
@@ -427,15 +447,14 @@ jQuery(document).ready(function ($) {
                     }
                 });
 
-                // add team to current player from current basket
-                $('.teams-in-basket-view').on('click', '.one-team-in-basket', function () {
-                    let team_name = $(this).data('name');
-                    let team_id = $(this).data('id');
-                    let team_league = $(this).data('league');
-                    let img_src = $(this).children().attr('src');
-                    let basket_id = $(this).data('basket');
+                function chooseTeam(team_object) {
+                    let team_name = team_object.data('name');
+                    let team_id = team_object.data('id');
+                    let team_league = team_object.data('league');
+                    let img_src = team_object.children().attr('src');
+                    let basket_id = team_object.data('basket');
 
-                    $(this).remove();
+                    team_object.remove();
 
                     $('.chosen-team-to-player').each(function () {
                         if ($(this).hasClass('can-deleted')) {
@@ -445,8 +464,8 @@ jQuery(document).ready(function ($) {
 
                     $('.teams-to-one-player[data-player="'+current_player+'"]')
                         .append('<p class="chosen-team-to-player can-deleted" data-name="'+team_name+'" data-id="'+team_id+'" ' +
-                        'data-league="'+team_league+'" data-img="'+img_src+'" data-player="'+current_player+'" ' +
-                        'data-basket="'+basket_id+'">' + team_name + '</p>');
+                            'data-league="'+team_league+'" data-img="'+img_src+'" data-player="'+current_player+'" ' +
+                            'data-basket="'+basket_id+'">' + team_name + '</p>');
 
                     // choose next player
                     current_player_key++;
@@ -456,6 +475,27 @@ jQuery(document).ready(function ($) {
                     if ($.inArray(current_player, player_arr) == -1) {
                         current_player_key = 0;
                         current_player = player_arr[current_player_key];
+                    }
+                }
+                // add team to current player from current basket
+                $('.teams-in-basket-view').on('click', '.one-team-in-basket', function () {
+                    chooseTeam($(this));
+                });
+
+                // choose random team from current basket
+                $('.random-team-block').on('click', function () {
+                    let teams = [];
+                    $('.one-team-in-basket').each(function () {
+                        if (!$(this).hasClass('deactivated')) {
+                            teams.push($(this));
+                        }
+                    });
+                    if (teams.length == 0) {
+                        alert('There are no teams in current basket');
+                    } else {
+                        let rnd = Math.floor(Math.random() * teams.length + 1);
+                        let rnd_team = $('.one-team-in-basket:nth-child(' + rnd + ')');
+                        chooseTeam(rnd_team);
                     }
                 });
 
