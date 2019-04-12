@@ -142,19 +142,19 @@ add_action( 'pre_get_posts', 'catch_wheels_alter_home' );
 /**
  * Function to add Scroll Up icon
  */
-function catch_wheels_scrollup() {
-	$disable_scrollup = get_theme_mod( 'catch_wheels_disable_scrollup' );
-
-	if ( $disable_scrollup ) {
-		return;
-	}
-
-	echo '
-		<div class="scrollup">
-			<a href="#masthead" id="scrollup" class="fa fa-sort-asc" aria-hidden="true"><span class="screen-reader-text">' . esc_html__( 'Scroll Up', 'catch-wheels' ) . '</span></a>
-		</div>' ;
-}
-add_action( 'wp_footer', 'catch_wheels_scrollup', 1 );
+//function catch_wheels_scrollup() {
+//	$disable_scrollup = get_theme_mod( 'catch_wheels_disable_scrollup' );
+//
+//	if ( $disable_scrollup ) {
+//		return;
+//	}
+//
+//	echo '
+//		<div class="scrollup">
+//			<a href="#masthead" id="scrollup" class="fa fa-sort-asc" aria-hidden="true"><span class="screen-reader-text">' . esc_html__( 'Scroll Up', 'catch-wheels' ) . '</span></a>
+//		</div>' ;
+//}
+//add_action( 'wp_footer', 'catch_wheels_scrollup', 1 );
 
 if ( ! function_exists( 'catch_wheels_content_nav' ) ) :
 	/**

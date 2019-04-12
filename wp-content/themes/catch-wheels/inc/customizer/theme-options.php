@@ -171,10 +171,10 @@ function catch_wheels_theme_options( $wp_customize ) {
 	);
 
 	/* Scrollup Options */
-	$wp_customize->add_section( 'catch_wheels_scrollup', array(
-		'panel'    => 'catch_wheels_theme_options',
-		'title'    => esc_html__( 'Scrollup Options', 'catch-wheels' ),
-	) );
+//	$wp_customize->add_section( 'catch_wheels_scrollup', array(
+//		'panel'    => 'catch_wheels_theme_options',
+//		'title'    => esc_html__( 'Scrollup Options', 'catch-wheels' ),
+//	) );
 
 	catch_wheels_register_option( $wp_customize, array(
 			'name'              => 'catch_wheels_disable_scrollup',

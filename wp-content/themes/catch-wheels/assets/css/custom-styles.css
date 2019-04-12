@@ -1,3 +1,15 @@
+html, body, #page.site {
+    height: 100%;
+}
+
+body {
+    background-image: url('../../../../uploads/2019/04/fifa-19-page-1.png'), linear-gradient(to top, #dbdcd7 0%, #dddcd7 24%, #e2c9cc 30%, #e7627d 46%, #b8235a 59%, #801357 71%, #3d1635 84%, #1c1a27 100%);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #4B0082 !important;
+}
 footer{
 	position: fixed;
 	bottom: 0;
@@ -7,108 +19,14 @@ footer{
 .search-content-wrapper-top {
     display: none;
 }
-/* old styles */
 
-/*.overlay_popup {*/
-    /*display:none;*/
-    /*position:fixed;*/
-    /*z-index: 1;*/
-    /*top:0;*/
-    /*right:0;*/
-    /*left:0;*/
-    /*bottom:0;*/
-    /*background:#000;*/
-    /*opacity:0.8;*/
-/*}*/
+.cbalink {
+    display: none;
+}
 
-/*.popup {*/
-    /*display: none;*/
-    /*position: relative;*/
-    /*z-index: 2;*/
-    /*margin: 0 25% 0 25%;*/
-    /*width: 50%;*/
-/*}*/
-
-/*.object{*/
-    /*width: 100%;*/
-    /*height: 165px;*/
-    /*background-color: #EEEEEE;*/
-    /*padding: 10px 10px;*/
-    /*border-radius: 10px;*/
-    /*border: 2px solid #EEEEEE;*/
-	/*box-shadow: 1px 1px 1px #999999;*/
-	/*font-size: 15px;*/
-	/*color: #000000;*/
-	/*font-weight: 600;*/
-/*}*/
-
-/*.div-players div {*/
-    /*cursor: pointer;*/
-    /*margin: 10px 0 0 0;*/
-    /*border: 2px solid slategray;*/
-    /*border-radius: 5px;*/
-    /*text-align: center;*/
-    /*font-size: 20px;*/
-    /*font-weight: 700;*/
-    /*background-color: #F0FFFF;*/
-/*}*/
-
-/*div.wrap-table {*/
-	/*display: inline-block;*/
-	/*text-align: center;*/
-	/*width: 60%;*/
-/*}*/
-
-/*table.main-table {*/
-	/*width: 100%;*/
-/*}*/
-
-/*table.main-table th, table.main-table td {*/
-	/*text-align: left;*/
-	/*font-family: Brush Script MT, Brush Script Std, cursive;*/
-	/*font-size: 25px;*/
-    /*padding: 10px;*/
-/*}*/
-
-/*div.start-game {*/
-	/*margin-bottom: 20px;*/
-/*}*/
-
-/*@media only screen and (max-width: 768px) {*/
-	/*h1.heading8 {*/
-		/*font-size: 2em !important;*/
-	/*}*/
-/*}*/
-
-/*button.get-strong-team, button.get-weak-team {*/
-	/*margin-bottom: 10px;*/
-/*}*/
-
-
-/*@media only screen and (max-width: 768px) {*/
-	/*table.main-table th, table.main-table td {*/
-		/*font-size: 18px;*/
-		/*padding: 5px;*/
-	/*}*/
-/*}*/
-
-/*@media only screen and (max-width: 480px) {*/
-	/*table.main-table th, table.main-table td {*/
-		/*font-size: 14px;*/
-		/*padding: 2px;*/
-	/*}*/
-	/*div.wrap-table {*/
-		/*width: 95%;*/
-	/*}*/
-/*}*/
-	
-/*finish old slyles*/
-
-/*new styles*/
-
-/*удалить, чтобы отображалась основная картинка*/
+/* switch for change main image*/
 #page.site {
-    background: #97c3b2 !important;
+    /*background: #97c3b2 !important;*/
 }
 
 .site-header {
@@ -230,6 +148,9 @@ input[name=player-name] {
 .random-player-block, .random-team-block {
     display: inline-block;
     cursor: pointer;
+    background: url('../images/shuffle.svg') no-repeat;
+    width: 35px;
+    height: 35px;
 }
 
 .chosen-players-view {
@@ -257,13 +178,22 @@ input[name=player-name] {
 }
 
 .button-wrapper {
-    margin: 200px 0;
+    position: fixed;
+    width: 100%;
+    min-height: 117vh;
+    max-height: 117vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
 }
 
 /*start button start tournament styles*/
 
 .button-tournament {
-    background: rgba(43, 51, 57, 0.9);
+    background: #000000;
     border-radius: 5px;
     cursor: pointer;
     letter-spacing: 0.2125rem;
@@ -278,7 +208,11 @@ input[name=player-name] {
     text-decoration: none;
     font-weight: 600;
     padding: 0 15px;
+    -webkit-box-shadow: -10px 15px 25px -8px rgba(0,0,0,0.98);
+    -moz-box-shadow: -10px 15px 25px -8px rgba(0,0,0,0.98);
+    box-shadow: -10px 15px 25px -8px rgba(0,0,0,0.98);
 }
+
 .button-tournament:hover {
     background: #999999;
     color: #000000;
@@ -342,6 +276,10 @@ input[name=player-name] {
     text-align: left;
     cursor: pointer;
 }
+.can-deleted:hover {
+    opacity: 0.3;
+    cursor: no-drop;
+}
 
 .teams-to-current-player, .current-basket-id {
     font-weight: 600;
@@ -356,6 +294,14 @@ input[name=player-name] {
     flex-wrap: wrap;
     -webkit-justify-content: space-around;
     justify-content: space-around;
+}
+
+.teams-to-one-player {
+    border: 1px solid rgb(153, 153, 153, 0.3);
+    border-radius: 5px;
+    box-shadow: 0 0 10px -3px #999;
+    padding: 0 5px;
+    margin: 5px;
 }
 
 .chosen-team-to-player {
@@ -388,7 +334,7 @@ input[name=player-name] {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 40px;
+    padding: 40px 10px;
     position: fixed;
     top: 0;
     left: 0;
@@ -408,7 +354,7 @@ input[name=player-name] {
 .overlay .modal-start {
     background: white;
     text-align: center;
-    padding: 20px 40px;
+    padding: 20px 10px;
     box-shadow: 0 1px 10px rgba(255, 255, 255, 0.35);
     opacity: 0;
     pointer-events: none;
@@ -456,5 +402,13 @@ input[name=player-name] {
 
     footer {
         height: 40px;
+    }
+
+    .button-wrapper {
+        min-height: 105vh;
+    }
+
+    #site-navigation {
+        display: none;
     }
 }

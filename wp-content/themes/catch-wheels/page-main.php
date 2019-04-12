@@ -15,15 +15,13 @@ get_header(); ?>
 
             <div class="start-content" id="name">
                 <p>Enter name of tournament:</p>
-                <input class="fm-input" name="tournament-name" type="text" required>
+                <input class="fm-input" name="tournament-name" type="text" maxlength="64" required>
             </div>
 
             <div class="start-content" id="players">
                 <p>Choose players:</p>
                 <div class="players-view"></div>
-                <div class="random-player-block">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/shuffle.png" class="random-player"/>
-                </div>
+                <div class="random-player-block"></div>
                 <div class="action-buttons">
                     <button class="custom-button btn btn-success new-player-button">+</button>
                     <button class="custom-button btn btn-danger del-player-button">-</button>
@@ -41,7 +39,7 @@ get_header(); ?>
 
             <div class="start-content" id="teams">
                 <p>Choose teams for
-                    <input type="number" class="baskets-number" value="1">
+                    <input type="number" class="baskets-number" value="1" min="1" max="10">
                     basket:
                 </p>
                 <button class="back-to-leagues deactivated">back</button>
@@ -56,9 +54,7 @@ get_header(); ?>
                 <span class="current-basket-id"></span>
                 <span>basket:</span>
                 <div class="teams-in-basket-view"></div>
-                <div class="random-team-block">
-                    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/shuffle.png" class="random-team"/>
-                </div>
+                <div class="random-team-block"></div>
                 <div>
                     <span class="manage-baskets previous-basket"><</span><span class="manage-baskets btn-baskets-text">baskets</span><span class="manage-baskets next-basket">></span>
                 </div>
@@ -73,13 +69,7 @@ get_header(); ?>
 			</div>
         </div>
     </div>
-
-	<div style="width: 100%; background: #FFFFFF;">
-            <div id="get-all-info">
-                GET INFO
-            </div>
-	</div>
-</>
+</div>
 
 <?php 
 get_footer();

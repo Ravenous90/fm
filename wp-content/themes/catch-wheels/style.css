@@ -595,7 +595,7 @@ q {
 
 ul,
 ol {
-	margin: 0 0 1.5em 1em;
+	margin: 0 0 0.5em 1em;
 	padding: 0;
 }
 
@@ -4277,10 +4277,6 @@ body {
 }
 
 /* Page Background Color */
-#page,
-.section:nth-of-type(even) {
-	background-color: #212121;
-}
 
 /* Page Background Color 85% */
 .promotion-headline-wrapper .hentry {

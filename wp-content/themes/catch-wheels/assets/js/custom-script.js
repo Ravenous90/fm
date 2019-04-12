@@ -189,12 +189,16 @@ jQuery(document).ready(function ($) {
                     }
 
                     // choosing players for game
-                    $('.players-view').on('click', '.one-player', function () {
+                    $('.players-view').off('click', '.one-player');
+                    $('.players-view').on('click', '.one-player', function (e) {
+                        e.stopPropagation();
+                        e.preventDefault();
                         choosePlayer($(this));
                     });
 
 
                     // choose random player
+                    $('.random-player-block').off('click');
                     $('.random-player-block').on('click', function () {
                         let players = $('.one-player');
                         if (players.hasClass('delete-player')) {
@@ -285,7 +289,9 @@ jQuery(document).ready(function ($) {
                     }, 500);
 
                     // getting teams by league
-                    $('.leagues-view').on('click', '.one-league', function () {
+                    $('.leagues-view').off('click', '.one-league');
+                    $('.leagues-view').on('click', '.one-league', function (e) {
+                        e.preventDefault();
                         let league_id = $(this).data('id');
 
                         $('.leagues-view').toggleClass('deactivated');
@@ -298,7 +304,9 @@ jQuery(document).ready(function ($) {
                     });
 
                     // back to leagues button
-                    $('.back-to-leagues').on('click', function () {
+                    $('.back-to-leagues').off('click', '.one-league');
+                    $('.back-to-leagues').on('click', function (e) {
+                        e.preventDefault();
                         $('.back-to-leagues').toggleClass('deactivated');
                         $('.teams-view').toggleClass('deactivated');
                         $('.leagues-view').toggleClass('deactivated');
@@ -568,7 +576,9 @@ console.info(start_tournament_data);
     // close popup start tournament
     $(document).on('click', function(e){
         var target = $(e.target);
-            if ($(target).hasClass("overlay")) {
+        if ($(target).hasClass("overlay")) {
+            let conf = confirm("Are you sure you want to close the window, all data will be removing?");
+            if (conf) {
                 $(target).find('.modal-start').each(function () {
                     $(this).removeClass("open");
                 });
@@ -576,7 +586,20 @@ console.info(start_tournament_data);
                     $(target).removeClass("open");
                     $('.start-content').removeClass('active');
                 }, 350);
+
+                $('.chosen-player').each(function () {
+                    $(this).remove();
+                });
+                $('.players-view').empty();
+                $('.teams-view').empty().toggleClass('deactivated');
+                $('.chosen-teams-view').empty();
+                $('.teams-in-basket-view').empty();
+                $('.teams-to-players-view').empty();
+                $('.leagues-view').removeClass('deactivated').empty();
+                $('.back-to-leagues').toggleClass('deactivated');
+
             }
+        }
     });
 
 });
