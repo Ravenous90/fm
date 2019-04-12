@@ -502,7 +502,7 @@ jQuery(document).ready(function ($) {
                         alert('There are no teams in current basket');
                     } else {
                         let rnd = Math.floor(Math.random() * teams.length + 1);
-                        let rnd_team = $('.one-team-in-basket:nth-child(' + rnd + ')');
+                        let rnd_team = teams[rnd - 1];
                         chooseTeam(rnd_team);
                     }
                 });
